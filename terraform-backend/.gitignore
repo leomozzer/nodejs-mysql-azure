@@ -1,0 +1,11 @@
+
+#Folders
+.terraform
+
+#Files
+terraform.tfvars
+.terraform.lock.hcl
+terraform.tfstate.backup
+terraform.tfstate
+.terraform.tfstate.lock.info
+#terraform-copy.tfvars

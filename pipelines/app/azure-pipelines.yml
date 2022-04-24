@@ -1,0 +1,11 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+  paths:
+    exclude: 
+    - README.md
+    - LICENSE
+    include:
+    - terraform-main
