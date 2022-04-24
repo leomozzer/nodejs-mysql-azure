@@ -1,0 +1,15 @@
+parameters:
+  - name: tfWorkdir
+
+steps:
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    displayName: 'Install Terraform'
+    inputs:
+      terraformVersion: 0.14.7
+
+  - task: TerraformCLI@0
+    displayName: 'Terraform init'
+    inputs:
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.tfWorkdir }}'
+      allowTelemetryCollection: true

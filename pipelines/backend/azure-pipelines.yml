@@ -1,0 +1,13 @@
+parameters:
+  - name: backendDir
+    default: "terraform-backend"
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: dev
+    jobs:
+    - template: ../templates/terraform.yml
+      parameters:
+        tfWorkdir: ${{ parameters.backendDir }}
