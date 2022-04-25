@@ -16,4 +16,4 @@ stages:
     - template: ../templates/terraform.yml
       parameters:
         terraform_work_dir: ${{ parameters.backendDir }}
-        app_name: 
+        app_name: ${{ parameters.app_name }}
