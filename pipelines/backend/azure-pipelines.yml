@@ -2,6 +2,9 @@ parameters:
   - name: backendDir
     default: "terraform-backend"
 
+variables:
+  - group: "nodejs-mysql-docker-group"
+
 pool:
   vmImage: ubuntu-latest
 
@@ -10,4 +13,4 @@ stages:
     jobs:
     - template: ../templates/terraform.yml
       parameters:
-        tfWorkdir: ${{ parameters.backendDir }}
+        terraform_work_dir: ${{ parameters.backendDir }}
