@@ -1,6 +1,8 @@
 parameters:
   - name: backendDir
     default: "terraform-backend"
+  - name: app_name
+    default: "nodejs-docker-backend"
 
 variables:
   - group: "nodejs-mysql-docker-group"
@@ -14,3 +16,4 @@ stages:
     - template: ../templates/terraform.yml
       parameters:
         terraform_work_dir: ${{ parameters.backendDir }}
+        app_name: 
