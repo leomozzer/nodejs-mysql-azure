@@ -17,3 +17,4 @@ stages:
       parameters:
         terraform_work_dir: ${{ parameters.backendDir }}
         app_name: ${{ parameters.app_name }}
+        out_file: "main"
