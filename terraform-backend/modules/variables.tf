@@ -37,3 +37,7 @@ variable "storage_container_name" {
 variable "container_access_type" {
   type = string
 }
+
+variable "keyvault_name" {
+  type = string
+}

@@ -6,6 +6,7 @@
 #6 - Create the Lambda
 
 #https://registry.terraform.io/search/modules?namespace=terraform-aws-modules
+#https://www.youtube.com/watch?v=7ftpkd2DFJ0
 
 resource "random_string" "random" {
   length  = 7
@@ -17,101 +18,101 @@ locals {
   project_name = "${var.app_name}-${random_string.random.result}-${var.environment}"
 }
 
-module "s3_bucket" {
-  source = "terraform-aws-modules/s3-bucket/aws"
-  bucket = "${local.project_name}-bucket"
-  tags = {
-    Engine      = "Terraform"
-    Environment = var.environment
-  }
-}
-
-data "archive_file" "zip_dir" {
-  count       = length(var.zip_files)
-  type        = "zip"
-  source_dir  = var.zip_files[count.index]["location"]
-  output_path = var.zip_files[count.index]["output"]
-}
-
-module "save_object" {
-  count       = length(var.s3_object_list)
-  source      = "./modules/bucket/save-data"
-  bucket_name = module.s3_bucket.s3_bucket_id
-  key_object  = var.s3_object_list[count.index]["key"]
-  path_file   = var.s3_object_list[count.index]["file_location"]
-}
-
-module "iam" {
-  source   = "./modules/iam"
-  iam_name = local.project_name
-  tags = {
-    Engine      = "Terraform"
-    Environment = var.environment
-  }
-}
-
-module "lambda_function_existing_package_s3" {
-  depends_on = [
-    module.save_object,
-    module.iam
-  ]
-  count  = length(var.s3_lambda_functions)
-  source = "terraform-aws-modules/lambda/aws"
-
-  function_name = "${local.project_name}-${var.s3_lambda_functions[count.index]["name"]}"
-  handler       = var.s3_lambda_functions[count.index]["handler"]
-  runtime       = var.s3_lambda_functions[count.index]["runtime"]
-
-  create_package = false
-  s3_existing_package = {
-    bucket = module.s3_bucket.s3_bucket_id
-    key    = var.s3_lambda_functions[count.index]["key"]
-  }
-  tags        = var.tags
-  lambda_role = module.iam.arn
-}
-
-###########
-
-# resource "aws_iam_role_policy_attachment" "lambda_policy" {
-#   role       = local.project_name
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+# module "s3_bucket" {
+#   source = "terraform-aws-modules/s3-bucket/aws"
+#   bucket = "${local.project_name}-bucket"
+#   tags = {
+#     Engine      = "Terraform"
+#     Environment = var.environment
+#   }
 # }
 
-# resource "aws_cloudwatch_log_group" "hello_world" {
-#   name = "/aws/lambda/${local.project_name}-${var.s3_lambda_functions[0]["name"]}"
-
-#   retention_in_days = 30
+# data "archive_file" "zip_dir" {
+#   count       = length(var.zip_files)
+#   type        = "zip"
+#   source_dir  = var.zip_files[count.index]["location"]
+#   output_path = var.zip_files[count.index]["output"]
 # }
 
-resource "aws_apigatewayv2_api" "lambda" {
-  name          = "serverless_lambda_gw"
-  protocol_type = "HTTP"
-}
+# module "save_object" {
+#   count       = length(var.s3_object_list)
+#   source      = "./modules/bucket/save-data"
+#   bucket_name = module.s3_bucket.s3_bucket_id
+#   key_object  = var.s3_object_list[count.index]["key"]
+#   path_file   = var.s3_object_list[count.index]["file_location"]
+# }
 
-resource "aws_apigatewayv2_integration" "hello_world" {
-  api_id = aws_apigatewayv2_api.lambda.id
+# module "iam" {
+#   source   = "./modules/iam"
+#   iam_name = local.project_name
+#   tags = {
+#     Engine      = "Terraform"
+#     Environment = var.environment
+#   }
+# }
 
-  integration_uri    = module.lambda_function_existing_package_s3[0].lambda_function_invoke_arn
-  integration_type   = "AWS_PROXY"
-  integration_method = "POST"
-}
+# module "lambda_function_existing_package_s3" {
+#   depends_on = [
+#     module.save_object,
+#     module.iam
+#   ]
+#   count  = length(var.s3_lambda_functions)
+#   source = "terraform-aws-modules/lambda/aws"
 
-resource "aws_apigatewayv2_route" "hello_world" {
-  api_id = aws_apigatewayv2_api.lambda.id
+#   function_name = "${local.project_name}-${var.s3_lambda_functions[count.index]["name"]}"
+#   handler       = var.s3_lambda_functions[count.index]["handler"]
+#   runtime       = var.s3_lambda_functions[count.index]["runtime"]
 
-  route_key = "GET /hello"
-  target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
-}
+#   create_package = false
+#   s3_existing_package = {
+#     bucket = module.s3_bucket.s3_bucket_id
+#     key    = var.s3_lambda_functions[count.index]["key"]
+#   }
+#   tags        = var.tags
+#   lambda_role = module.iam.arn
+# }
 
-resource "aws_lambda_permission" "api_gw" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = "${local.project_name}-${var.s3_lambda_functions[0]["name"]}"
-  principal     = "apigateway.amazonaws.com"
+# ###########
 
-  source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
-}
+# # resource "aws_iam_role_policy_attachment" "lambda_policy" {
+# #   role       = local.project_name
+# #   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+# # }
+
+# # resource "aws_cloudwatch_log_group" "hello_world" {
+# #   name = "/aws/lambda/${local.project_name}-${var.s3_lambda_functions[0]["name"]}"
+
+# #   retention_in_days = 30
+# # }
+
+# resource "aws_apigatewayv2_api" "lambda" {
+#   name          = "serverless_lambda_gw"
+#   protocol_type = "HTTP"
+# }
+
+# resource "aws_apigatewayv2_integration" "hello_world" {
+#   api_id = aws_apigatewayv2_api.lambda.id
+
+#   integration_uri    = module.lambda_function_existing_package_s3[0].lambda_function_invoke_arn
+#   integration_type   = "AWS_PROXY"
+#   integration_method = "POST"
+# }
+
+# resource "aws_apigatewayv2_route" "hello_world" {
+#   api_id = aws_apigatewayv2_api.lambda.id
+
+#   route_key = "GET /hello"
+#   target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
+# }
+
+# resource "aws_lambda_permission" "api_gw" {
+#   statement_id  = "AllowExecutionFromAPIGateway"
+#   action        = "lambda:InvokeFunction"
+#   function_name = "${local.project_name}-${var.s3_lambda_functions[0]["name"]}"
+#   principal     = "apigateway.amazonaws.com"
+
+#   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+# }
 
 # resource "aws_apigatewayv2_stage" "lambda" {
 #   api_id = aws_apigatewayv2_api.lambda.id
