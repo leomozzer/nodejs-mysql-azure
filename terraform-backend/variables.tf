@@ -1,6 +1,7 @@
 variable "environment" {
   description = "App environment"
   type        = string
+  default     = "dev"
 }
 
 variable "app_name" {
