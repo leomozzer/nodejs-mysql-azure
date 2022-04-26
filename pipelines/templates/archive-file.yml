@@ -5,7 +5,7 @@ parameters:
   - name: output_file
 
 jobs:
-  - job: 'Archive File'
+  - job: 'ArchiveFile'
     pool:
       vmImage: ubuntu-latest
 
