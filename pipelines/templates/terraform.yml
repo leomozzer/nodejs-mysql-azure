@@ -53,10 +53,8 @@ jobs:
 
       - task: PublishPipelineArtifact@1
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: '$(Build.BuildId)-tfplan'
-          publishLocation: 'Container'
-          displayName: 'Publish Plan Artifact'  
+          targetPath: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'drop'
 
 #https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
 #https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
