@@ -24,3 +24,19 @@ module "backend" {
   container_access_type    = "private"
   keyvault_name            = "${local.project_name}-kv"
 }
+
+output "rg_name" {
+  value = "${local.project_name}-rg-backend"
+}
+
+output "acr_name" {
+  value = "${local.random_result}acr"
+}
+
+output "storage_account_name" {
+  value = "${local.random_result}stac"
+}
+
+output "storage_container_name" {
+  value = "terraform"
+}

@@ -35,3 +35,8 @@ jobs:
           allowTelemetryCollection: true
           commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           environmentServiceName: 'AzureDevOps'
+
+      # - task: CmdLine@2 
+      #   displayName: "Create output json file"
+      #   inputs:
+      #     script: 'terraform output -json > ./output.json'
