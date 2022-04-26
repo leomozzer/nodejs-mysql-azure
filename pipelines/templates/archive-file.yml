@@ -3,12 +3,14 @@ parameters:
   - name: work_dir
   - name : archive_type
   - name: output_file
+  - name: depends_on
+    default: []
 
 jobs:
   - job: 'ArchiveFile'
+    dependsOn: ${{ parameters.DependsOn }}
     pool:
       vmImage: ubuntu-latest
-
     steps:
       - task: ArchiveFiles@2
         inputs:
