@@ -55,7 +55,6 @@ jobs:
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)'
           artifactName: 'drop'
-          artifactType: 'pipeline'  
 
 #https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
 #https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
