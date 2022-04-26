@@ -53,11 +53,14 @@ jobs:
 
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)'
-          artifactName: 'drop'
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: '$(Build.BuildId)-tfplan'
+          publishLocation: 'Container'
+          displayName: 'Publish Plan Artifact'  
 
 #https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
 #https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
+#https://thomasthornton.cloud/2020/11/02/deploying-terraform-using-azure-devops-with-build-artifacts/
 
       # - task: TerraformCLI@0
       #   displayName: 'Terraform Apply'

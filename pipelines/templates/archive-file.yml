@@ -19,10 +19,10 @@ jobs:
           archiveType: ${{ parameters.archive_type }}
           archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
 
-      - task: DownloadPipelineArtifact@2
+      - task: DownloadBuildArtifacts@0
         inputs:
-          artifact: drop
-          path: $(System.ArtifactsDirectory)
+          artifactName: '$(Build.BuildId)-tfplan'
+          displayName: 'Download Plan Artifact'
 
       - task: CmdLine@2 
         displayName: "Check LS"
@@ -33,3 +33,8 @@ jobs:
         displayName: "Check LS"
         inputs:
           script: 'ls -ltr $(System.ArtifactsDirectory)/'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr $(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan'
