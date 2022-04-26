@@ -21,7 +21,7 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          artifactName: '$(Build.BuildId)-tfplan'
+          artifactName: 'drop'
           displayName: 'Download Plan Artifact'
 
       - task: CmdLine@2 
@@ -37,4 +37,4 @@ jobs:
       - task: CmdLine@2 
         displayName: "Check LS"
         inputs:
-          script: 'ls -ltr $(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan'
+          script: 'ls -ltr $(System.ArtifactsDirectory)/'
