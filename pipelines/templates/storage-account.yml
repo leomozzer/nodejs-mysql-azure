@@ -10,9 +10,24 @@ jobs:
       vmImage: ubuntu-latest
 
     steps:
-      - task: CmdLine@2 
-        displayName: "Save file into Storage Account"
+      - task: DownloadPipelineArtifact@2
         inputs:
-          inlineScript: |
-            $ReadOutputFile = Get-Content ${{ parameters.input_file }} | Out-String | ConvertFrom-Json
-            az storage blob upload --account-name $ReadOutputFile.storage_account_name --container-name $ReadOutputFile.storage_container_name --name ${{ parameters.file_name }} --file ${{ parameters.file_location }}
+          buildType: 'current'
+          artifactName: 'drop'
+          targetPath: '$(System.ArtifactsDirectory)'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr '$(System.ArtifactsDirectory)/'
+      # - task: CmdLine@2 
+      #   displayName: "Save file into Storage Account"
+      #   inputs:
+      #     inlineScript: |
+      #       $ReadOutputFile = Get-Content ${{ parameters.input_file }} | Out-String | ConvertFrom-Json
+      #       az storage blob upload --account-name $ReadOutputFile.storage_account_name --container-name $ReadOutputFile.storage_container_name --name ${{ parameters.file_name }} --file ${{ parameters.file_location }}
