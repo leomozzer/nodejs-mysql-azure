@@ -3,6 +3,10 @@ parameters:
   - name : app_name
   - name: out_file
   - name: input_vars
+  - name: include_root_rolder
+  - name: work_dir
+  - name : archive_type
+  - name: output_file
 
 jobs:
   - job: 'Terraform'
@@ -49,3 +53,10 @@ jobs:
         displayName: "Create output json file"
         inputs:
           script: 'terraform output -json > ./output.json'
+      
+      - task: ArchiveFiles@2
+        inputs:
+          includeRootFolder: ${{ parameters.include_root_rolder }}
+          rootFolderOrFile: ${{ parameters.work_dir }}
+          archiveType: ${{ parameters.archive_type }}
+          archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
