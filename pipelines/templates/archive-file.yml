@@ -22,6 +22,7 @@ jobs:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: drop
+          path: $(System.ArtifactsDirectory)
 
       - task: CmdLine@2 
         displayName: "Check LS"
