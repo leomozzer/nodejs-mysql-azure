@@ -18,3 +18,19 @@ jobs:
           rootFolderOrFile: ${{ parameters.work_dir }}
           archiveType: ${{ parameters.archive_type }}
           archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          artifactName: 'drop'
+          targetPath: '$(System.ArtifactsDirectory)'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr '$(System.ArtifactsDirectory)/'
