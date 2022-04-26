@@ -36,7 +36,16 @@ jobs:
           commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           environmentServiceName: 'AzureDevOps'
 
-      # - task: CmdLine@2 
-      #   displayName: "Create output json file"
-      #   inputs:
-      #     script: 'terraform output -json > ./output.json'
+      - task: TerraformCLI@0
+        displayName: 'Terraform Apply'
+        inputs:
+          command: 'apply'
+          allowTelemetryCollection: true
+          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+          commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
+          environmentServiceName: 'AzureDevOps'
+
+      - task: CmdLine@2 
+        displayName: "Create output json file"
+        inputs:
+          script: 'terraform output -json > ./output.json'
