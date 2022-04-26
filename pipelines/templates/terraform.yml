@@ -45,6 +45,11 @@ jobs:
           SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
           Contents: '**'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      
+      - task: CmdLine@2 
+        displayName: "Check LS"
+        inputs:
+          script: 'ls -ltr $(Build.ArtifactStagingDirectory)/'
 
       - task: PublishPipelineArtifact@1
         inputs:
