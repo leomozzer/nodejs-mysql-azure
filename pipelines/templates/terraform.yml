@@ -52,7 +52,7 @@ jobs:
       - task: CmdLine@2 
         displayName: "Create output json file"
         inputs:
-          script: 'terraform output -json > ./output.json'
+          script: 'terraform output -json > $(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}/output.json'
       
       - task: ArchiveFiles@2
         inputs:
