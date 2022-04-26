@@ -22,7 +22,7 @@ module "backend" {
   account_replication_type = "LRS"
   storage_container_name   = "terraform"
   container_access_type    = "private"
-  keyvault_name            = "${local.project_name}-kv"
+  keyvault_name            = "${local.random_result}-kv"
 }
 
 output "rg_name" {
