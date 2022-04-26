@@ -22,7 +22,7 @@ jobs:
       - task: DownloadPipelineArtifact@2
         inputs:
           buildType: 'current'
-          artifactName: 'drop'
+          artifact: 'drop'
           targetPath: '$(System.ArtifactsDirectory)'
 
       - task: CmdLine@2 
