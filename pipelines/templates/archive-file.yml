@@ -8,7 +8,7 @@ parameters:
 
 jobs:
   - job: 'ArchiveFile'
-    dependsOn: ${{ parameters.DependsOn }}
+    dependsOn: ${{ parameters.depends_on }}
     pool:
       vmImage: ubuntu-latest
     steps:
