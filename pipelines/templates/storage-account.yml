@@ -24,7 +24,8 @@ jobs:
       - task: CmdLine@2 
         displayName: "Check LS"
         inputs:
-          script: 'ls -ltr '$(System.ArtifactsDirectory)/'
+          script: 'ls -ltr '$(System.ArtifactsDirectory)'
+
       # - task: CmdLine@2 
       #   displayName: "Save file into Storage Account"
       #   inputs:
