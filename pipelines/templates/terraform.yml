@@ -6,6 +6,7 @@ parameters:
   - name: work_dir
   - name : archive_type
   - name: output_file
+  - name: artifact_name
 
 jobs:
   - job: 'Terraform'
@@ -45,17 +46,6 @@ jobs:
           rootFolderOrFile: ${{ parameters.work_dir }}
           archiveType: ${{ parameters.archive_type }}
           archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
-      
-      - task: CopyFiles@2
-        inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathToPublish: '$(Build.ArtifactStagingDirectory)'
-          artifactName: drop
 
 #https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
 #https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
@@ -70,10 +60,27 @@ jobs:
       #     commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
       #     environmentServiceName: 'AzureDevOps'
 
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ${{ parameters.artifact_name }}
+
       # - task: CmdLine@2 
       #   displayName: "Create output json file"
       #   inputs:
       #     script: 'terraform output -json > $(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}/output.json'
+
+      # - task: CopyFiles@2
+      #   inputs:
+      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
+      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
       
       # - task: ArchiveFiles@2
       #   inputs:

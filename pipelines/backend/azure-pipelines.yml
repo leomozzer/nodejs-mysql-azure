@@ -22,6 +22,7 @@ stages:
         work_dir: ${{ parameters.backendDir }}
         archive_type: 'tar'
         output_file: 'tf-backend'
+        artifact_name: 'tf-states'
 
     - template: ../templates/storage-account.yml
       parameters:
@@ -30,6 +31,7 @@ stages:
         output_file: 'output_file'
         file_name: 'file_name'
         file_destination: 'file_destination'
+        artifact_name: 'tf-states'
         
     # - template: ../templates/archive-file.yml
     #   parameters:
