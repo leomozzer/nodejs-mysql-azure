@@ -10,21 +10,27 @@ jobs:
       vmImage: ubuntu-latest
 
     steps:
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: 'current'
-          artifactName: 'drop'
-          targetPath: '$(System.ArtifactsDirectory)'
+      - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            downloadPath: '$(System.ArtifactsDirectory)'
+      # - task: DownloadPipelineArtifact@2
+      #   inputs:
+      #     buildType: 'current'
+      #     artifactName: 'drop'
+      #     targetPath: '$(System.ArtifactsDirectory)'
 
-      - task: CmdLine@2 
-        displayName: "Check LS"
-        inputs:
-          script: 'ls -ltr'
+      # - task: CmdLine@2 
+      #   displayName: "Check LS"
+      #   inputs:
+      #     script: 'ls -ltr'
 
-      - task: CmdLine@2 
-        displayName: "Check LS"
-        inputs:
-          script: 'ls -ltr '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan'
+      # - task: CmdLine@2 
+      #   displayName: "Check LS"
+      #   inputs:
+      #     script: 'ls -ltr '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan'
 
       # - task: CmdLine@2 
       #   displayName: "Save file into Storage Account"

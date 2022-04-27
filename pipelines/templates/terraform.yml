@@ -35,41 +35,23 @@ jobs:
         displayName: 'Terraform plan'
         inputs:
           command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
           allowTelemetryCollection: true
           commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           environmentServiceName: 'AzureDevOps'
-      
-      # - task: ArchiveFiles@2
-      #   displayName: 'Create Plan Artifact'
-      #   inputs:
-      #     rootFolderOrFile: '$(Build.SourcesDirectory)'
-      #     includeRootFolder: false
-      #     archiveType: 'tar'
-      #     tarCompression: 'gz'
-      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tgz'
-      #     replaceExistingArchive: true
+
+      - task: ArchiveFiles@2
+        inputs:
+          includeRootFolder: ${{ parameters.include_root_rolder }}
+          rootFolderOrFile: ${{ parameters.work_dir }}
+          archiveType: ${{ parameters.archive_type }}
+          archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
       
       - task: CopyFiles@2
         inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
-          Contents: '**'
+          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Contents: '**/*.${{ parameters.archive_type }}'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-      - task: CmdLine@2 
-        displayName: "Check LS"
-        inputs:
-          script: 'ls -ltr'
-      
-      - task: CmdLine@2 
-        displayName: "Check LS"
-        inputs:
-          script: 'ls -ltr $(Build.ArtifactStagingDirectory)/'
-
-      # - task: PublishPipelineArtifact@1
-      #   inputs:
-      #     targetPath: '$(Build.ArtifactStagingDirectory)'
-      #     artifactName: 'drop'
 
       - task: PublishBuildArtifacts@1
         inputs:
