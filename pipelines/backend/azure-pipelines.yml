@@ -13,7 +13,7 @@ pool:
 stages:
   - stage: dev
     jobs:
-    - template: ../templates/terraform.yml
+    - template: ../templates/terraform.yml #https://julie.io/writing/terraform-on-azure-pipelines-best-practices/
       parameters:
         app_name: ${{ parameters.app_name }}
         out_file: "main"

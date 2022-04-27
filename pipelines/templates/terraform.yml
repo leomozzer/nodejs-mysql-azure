@@ -63,7 +63,15 @@ jobs:
       - task: CmdLine@2 
         displayName: "Create output json file"
         inputs:
-          script: 'terraform output -json > $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json'
+          script: 'terraform output -json > ${{ parameters.output_file }}.json'
+          workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}
+
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            $json = Get-Content '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json' | Out-String | ConvertFrom-Json
+            write-output $json
 
       - task: CopyFiles@2
         inputs:
