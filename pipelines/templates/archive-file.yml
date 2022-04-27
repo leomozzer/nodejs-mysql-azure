@@ -19,10 +19,17 @@ jobs:
           archiveType: ${{ parameters.archive_type }}
           archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
 
+      # - task: DownloadBuildArtifacts@0
+      #   inputs:
+      #     artifactName: 'drop'
+      #     displayName: 'Download Plan Artifact'
+
       - task: DownloadBuildArtifacts@0
         inputs:
+          buildType: 'current'
+          downloadType: 'single'
           artifactName: 'drop'
-          displayName: 'Download Plan Artifact'
+          downloadPath: '$(System.ArtifactsDirectory)'
 
       - task: CmdLine@2 
         displayName: "Check LS"
@@ -34,7 +41,14 @@ jobs:
         inputs:
           script: 'ls -ltr $(System.ArtifactsDirectory)/'
 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(Agent.BuildDirectory)'
+      
       - task: CmdLine@2 
         displayName: "Check LS"
         inputs:
-          script: 'ls -ltr $(System.ArtifactsDirectory)/'
+          script: 'ls -ltr $(Agent.BuildDirectory)/'

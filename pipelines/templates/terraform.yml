@@ -40,21 +40,41 @@ jobs:
           commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           environmentServiceName: 'AzureDevOps'
       
-      - task: CopyFiles@2
+      # - task: ArchiveFiles@2
+      #   displayName: 'Create Plan Artifact'
+      #   inputs:
+      #     rootFolderOrFile: '$(Build.SourcesDirectory)'
+      #     includeRootFolder: false
+      #     archiveType: 'tar'
+      #     tarCompression: 'gz'
+      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tgz'
+      #     replaceExistingArchive: true
+      
+      # - task: CopyFiles@2
+      #   inputs:
+      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+      #     Contents: '**'
+      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: CmdLine@2 
+        displayName: "Check LS"
         inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
-          Contents: '**'
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          script: 'ls -ltr'
       
       - task: CmdLine@2 
         displayName: "Check LS"
         inputs:
           script: 'ls -ltr $(Build.ArtifactStagingDirectory)/'
 
-      - task: PublishPipelineArtifact@1
+      # - task: PublishPipelineArtifact@1
+      #   inputs:
+      #     targetPath: '$(Build.ArtifactStagingDirectory)'
+      #     artifactName: 'drop'
+
+      - task: PublishBuildArtifacts@1
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)'
-          artifactName: 'drop'
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: drop
 
 #https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
 #https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
