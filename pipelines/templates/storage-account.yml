@@ -22,11 +22,15 @@ jobs:
           downloadPath: '$(System.ArtifactsDirectory)'
 
       - task: PowerShell@2
+        displayName: "Save file into Storage Account"
         inputs:
           targetType: 'inline'
+          workingDirectory: $(System.ArtifactsDirectory)/${{ parameters.artifact_name }}
           script: |
-            $json = Get-Content '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}/${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
-            write-output $json
+            $json = Get-Content '${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
+            $storage_account_name = $json.storage_account_name.value
+            $storage_container_name = $json.storage_container_name.value
+            az storage blob upload --account-name $storage_account_name --container-name $storage_container_name --name ${{ parameters.output_file }} --file ${{ parameters.output_file }}
 
       # - task: CmdLine@2 
       #   displayName: "Save file into Storage Account"
