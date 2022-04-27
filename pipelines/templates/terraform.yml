@@ -67,8 +67,8 @@ jobs:
 
       - task: CopyFiles@2
         inputs:
-          #SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          Contents: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json'
+          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}' #SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Contents: '**/*.json' #Contents: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1

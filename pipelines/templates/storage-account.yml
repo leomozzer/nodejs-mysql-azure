@@ -21,6 +21,12 @@ jobs:
           artifactName: ${{ parameters.artifact_name }}
           downloadPath: '$(System.ArtifactsDirectory)'
 
+      - task: CmdLine@2 
+        displayName: "Read ${{ parameters.file_name }}"
+        inputs:
+          script: |
+            $json = Get-Content '$(System.ArtifactsDirectory)/${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
+            write-output $json
       # - task: CmdLine@2 
       #   displayName: "Save file into Storage Account"
       #   inputs:
