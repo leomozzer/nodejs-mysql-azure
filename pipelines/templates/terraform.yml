@@ -50,11 +50,11 @@ jobs:
       #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tgz'
       #     replaceExistingArchive: true
       
-      # - task: CopyFiles@2
-      #   inputs:
-      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
-      #     Contents: '**'
-      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: CmdLine@2 
         displayName: "Check LS"
