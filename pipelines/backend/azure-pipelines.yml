@@ -25,6 +25,7 @@ stages:
 
     - template: ../templates/storage-account.yml
       parameters:
+        depends_on: 'Terraform'
         input_file: 'input_file'
         output_file: 'output_file'
         file_name: 'file_name'

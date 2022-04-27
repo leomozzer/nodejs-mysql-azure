@@ -3,9 +3,12 @@ parameters:
   - name: output_file
   - name: file_name
   - name: file_destination
+  - name: depends_on
+    default: []
 
 jobs:
   - job: 'SaveFile'
+    dependsOn: ${{ parameters.depends_on }}
     pool:
       vmImage: ubuntu-latest
 

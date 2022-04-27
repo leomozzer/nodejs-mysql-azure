@@ -49,7 +49,7 @@ jobs:
       - task: CopyFiles@2
         inputs:
           SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          Contents: '**/*.${{ parameters.archive_type }}'
+          Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
