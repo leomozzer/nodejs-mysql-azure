@@ -40,6 +40,19 @@ jobs:
           commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           environmentServiceName: 'AzureDevOps'
 
+#https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
+#https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
+#https://thomasthornton.cloud/2020/11/02/deploying-terraform-using-azure-devops-with-build-artifacts/
+
+      - task: TerraformCLI@0
+        displayName: 'Terraform Apply'
+        inputs:
+          command: 'apply'
+          allowTelemetryCollection: true
+          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
+          environmentServiceName: 'AzureDevOps'
+
       - task: ArchiveFiles@2
         inputs:
           includeRootFolder: ${{ parameters.include_root_rolder }}
@@ -47,40 +60,21 @@ jobs:
           archiveType: ${{ parameters.archive_type }}
           archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
 
-#https://docs.microsoft.com/pt-br/azure/devops/pipelines/tasks/utility/publish-pipeline-artifact?view=azure-devops
-#https://faun.pub/azure-devops-build-release-with-yaml-templates-d55f25a4928c
-#https://thomasthornton.cloud/2020/11/02/deploying-terraform-using-azure-devops-with-build-artifacts/
-
-      # - task: TerraformCLI@0
-      #   displayName: 'Terraform Apply'
-      #   inputs:
-      #     command: 'apply'
-      #     allowTelemetryCollection: true
-      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
-      #     commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
-      #     environmentServiceName: 'AzureDevOps'
+      - task: CmdLine@2 
+        displayName: "Create output json file"
+        inputs:
+          script: 'terraform output -json > $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json'
 
       - task: CopyFiles@2
         inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
+          #SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Contents: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}/${{ parameters.output_file }}.json'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
         inputs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
           artifactName: ${{ parameters.artifact_name }}
-
-      # - task: CmdLine@2 
-      #   displayName: "Create output json file"
-      #   inputs:
-      #     script: 'terraform output -json > $(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}/output.json'
-
-      # - task: CopyFiles@2
-      #   inputs:
-      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-      #     Contents: '${{ parameters.output_file }}.${{ parameters.archive_type }}'
-      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
       
       # - task: ArchiveFiles@2
       #   inputs:
