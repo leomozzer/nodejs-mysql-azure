@@ -44,7 +44,7 @@ jobs:
           includeRootFolder: ${{ parameters.include_root_rolder }}
           rootFolderOrFile: ${{ parameters.work_dir }}
           archiveType: ${{ parameters.archive_type }}
-          archiveFile: ${{ parameters.output_file }}.${{ parameters.archive_type }}
+          archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
       
       - task: CopyFiles@2
         inputs:
