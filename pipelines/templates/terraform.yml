@@ -22,13 +22,13 @@ jobs:
         displayName: 'Terraform init'
         inputs:
           command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
           allowTelemetryCollection: true
     
       - task: CmdLine@2 
         displayName: "Terraform check format"
         inputs:
-          script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.terraform_work_dir }}'
+          script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
       - task: TerraformCLI@0
         displayName: 'Terraform plan'
