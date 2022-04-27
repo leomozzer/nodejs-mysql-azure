@@ -29,7 +29,7 @@ stages:
         depends_on: 'Terraform'
         input_file: 'input_file'
         output_file: 'output_file'
-        file_name: 'file_name'
+        file_name: 'tf-backend.json'
         file_destination: 'file_destination'
         artifact_name: 'tf-states'
         
