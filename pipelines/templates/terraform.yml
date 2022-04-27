@@ -1,5 +1,4 @@
 parameters:
-  - name: terraform_work_dir
   - name : app_name
   - name: out_file
   - name: input_vars
