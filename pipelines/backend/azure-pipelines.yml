@@ -25,11 +25,10 @@ stages:
 
     - template: ../templates/storage-account.yml
       parameters:
-        depends_on: 'Terraform'
-        include_root_rolder: false
-        work_dir: ${{ parameters.backendDir }}
-        archive_type: 'tar'
-        output_file: 'tf-backend'
+        input_file: 'input_file'
+        output_file: 'output_file'
+        file_name: 'file_name'
+        file_destination: 'file_destination'
         
     # - template: ../templates/archive-file.yml
     #   parameters:
