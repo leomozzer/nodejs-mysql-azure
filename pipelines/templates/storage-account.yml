@@ -5,7 +5,7 @@ parameters:
   - name: file_destination
 
 jobs:
-  - job: 'Terraform'
+  - job: 'SaveFile'
     pool:
       vmImage: ubuntu-latest
 
