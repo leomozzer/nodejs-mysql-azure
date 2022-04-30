@@ -28,7 +28,7 @@ stages:
       parameters:
         depends_on: 'Terraform'
         input_file: 'input_file'
-        output_file: 'tf-states.tar'
+        output_file: 'tf-backend.tar'
         file_name: 'tf-backend.json'
         file_destination: 'file_destination'
         artifact_name: 'tf-states'
