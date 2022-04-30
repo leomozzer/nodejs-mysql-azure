@@ -73,26 +73,26 @@ resource "azurerm_key_vault" "keyvault" {
   }
 }
 
-resource "azurerm_key_vault_secret" "secret-acr-name" {
+resource "azurerm_key_vault_secret" "secret_acr_name" {
   name         = "acr-name"
   value        = azurerm_container_registry.acr.name
   key_vault_id = azurerm_key_vault.keyvault.id
 }
 
-resource "azurerm_key_vault_secret" "acr-name" {
+resource "azurerm_key_vault_secret" "secret_storage_account_name" {
   name         = "storage-account-name"
   value        = azurerm_storage_account.storage_account.name
   key_vault_id = azurerm_key_vault.keyvault.id
 }
 
-resource "azurerm_key_vault_secret" "acr-name" {
+resource "azurerm_key_vault_secret" "secret_arc_admin_user" {
   count        = var.acr_admin_enabled ? 1 : 0
   name         = "arc-admin-user"
   value        = azurerm_container_registry.acr.admin_username
   key_vault_id = azurerm_key_vault.keyvault.id
 }
 
-resource "azurerm_key_vault_secret" "acr-name" {
+resource "azurerm_key_vault_secret" "secret_acr_admin_password" {
   count        = var.acr_admin_enabled ? 1 : 0
   name         = "acr-admin-password"
   value        = azurerm_container_registry.acr.admin_password
