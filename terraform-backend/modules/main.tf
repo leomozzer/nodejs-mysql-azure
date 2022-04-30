@@ -31,7 +31,7 @@ resource "azurerm_storage_container" "storage_container" {
 }
 
 resource "azurerm_role_assignment" "data_contributor_role" {
-  scope                = azurerm_storage_container.storage_account.resource_manager_id
+  scope                = azurerm_storage_container.storage_container.resource_manager_id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.current.object_id
 }
