@@ -9,6 +9,7 @@ trigger:
     - LICENSE
     include:
     - terraform-backend
+    - pipelines/backend/azure-pipelines.yml
 
 parameters:
   - name: backendDir
