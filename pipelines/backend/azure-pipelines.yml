@@ -30,7 +30,7 @@ stages:
       parameters:
         out_file: "main"
         input_vars:  '-var "app_name=${{ parameters.app_name }}" -var "subscription_id=$(SUBSCRIPTION-ID)" -var "client_id=$(CLIENT-ID)" -var "client_secret=$(CLIENT-SECRET)" -var "tenant_id=$(TENANT-ID)"'
-        include_root_rolder: false
+        include_root_rolder: true
         work_dir: ${{ parameters.backendDir }}
         archive_type: 'tar'
         output_file: 'tf-backend'

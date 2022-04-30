@@ -18,6 +18,11 @@ locals {
   project_name = "${var.app_name}-${random_string.random.result}-${var.environment}"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = var.rg_name
+  location = var.rg_location #"West Europe"
+}
+
 # module "s3_bucket" {
 #   source = "terraform-aws-modules/s3-bucket/aws"
 #   bucket = "${local.project_name}-bucket"

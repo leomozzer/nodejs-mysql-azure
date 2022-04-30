@@ -9,3 +9,15 @@ trigger:
     - LICENSE
     include:
     - terraform-main
+
+#How to Build and Deploy Docker Containers with Azure Pipelines
+#https://www.youtube.com/watch?v=272GOWKDqP4
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: dev
+    jobs:
+    - job: Build
+      steps:
