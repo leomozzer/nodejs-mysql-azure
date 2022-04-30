@@ -3,7 +3,6 @@
 #https://thomasthornton.cloud/2020/11/02/deploying-terraform-using-azure-devops-with-build-artifacts/
 
 parameters:
-  - name : app_name
   - name: out_file
   - name: input_vars
   - name: include_root_rolder

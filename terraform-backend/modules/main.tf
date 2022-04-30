@@ -30,6 +30,12 @@ resource "azurerm_storage_container" "storage_container" {
   container_access_type = var.container_access_type #"private"
 }
 
+resource "azurerm_role_assignment" "data_contributor_role" {
+  scope                = azurerm_storage_container.storage_account.resource_manager_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
 resource "azurerm_key_vault" "keyvault" {
   name                        = var.keyvault_name
   resource_group_name         = azurerm_resource_group.rg.name
