@@ -20,6 +20,7 @@ jobs:
           downloadPath: '$(System.ArtifactsDirectory)'
           
       - task: AzureCLI@2
+        retryCountOnTaskFailure: 2
         inputs:
           workingDirectory: '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}'
           azureSubscription: 'AzureDevOps'
