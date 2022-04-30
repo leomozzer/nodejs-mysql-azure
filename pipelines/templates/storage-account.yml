@@ -30,34 +30,3 @@ jobs:
             $storage_account_name = $json.storage_account_name.value
             $storage_container_name = $json.storage_container_name.value
             az storage blob upload --account-name $storage_account_name --container-name $storage_container_name --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key
-
-
-      # - task: AzureCLI@2
-      #   inputs:
-      #     azureSubscription: 'AzureDevOps'
-      #     scriptType: 'ps'
-      #     scriptLocation: 'inlineScript'
-      #     workingDirectory: $(System.ArtifactsDirectory)/${{ parameters.artifact_name }}
-      #     inlineScript: |
-      #       $json = Get-Content '${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
-      #       $storage_account_name = $json.storage_account_name.value
-      #       $storage_container_name = $json.storage_container_name.value
-      #       az storage blob upload --account-name $storage_account_name --container-name $storage_container_name --name ${{ parameters.output_file }} --file ${{ parameters.output_file }}
-
-      # - task: PowerShell@2
-      #   displayName: "Save file into Storage Account"
-      #   inputs:
-      #     targetType: 'inline'
-      #     workingDirectory: $(System.ArtifactsDirectory)/${{ parameters.artifact_name }}
-      #     script: |
-      #       $json = Get-Content '${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
-      #       $storage_account_name = $json.storage_account_name.value
-      #       $storage_container_name = $json.storage_container_name.value
-      #       az storage blob upload --account-name $storage_account_name --container-name $storage_container_name --name ${{ parameters.output_file }} --file ${{ parameters.output_file }}
-
-      # - task: CmdLine@2 
-      #   displayName: "Save file into Storage Account"
-      #   inputs:
-      #     inlineScript: |
-      #       $ReadOutputFile = Get-Content ${{ parameters.input_file }} | Out-String | ConvertFrom-Json
-      #       az storage blob upload --account-name $ReadOutputFile.storage_account_name --container-name $ReadOutputFile.storage_container_name --name ${{ parameters.file_name }} --file ${{ parameters.file_location }}
