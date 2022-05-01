@@ -33,10 +33,10 @@ output "acr_name" {
   value = "${local.random_result}acr"
 }
 
-output "storage_account_name" {
-  value = "${local.random_result}stac"
-}
+# output "storage_account_name" {
+#   value = "${local.random_result}stac"
+# }
 
-output "storage_container_name" {
-  value = "terraform"
-}
+# output "storage_container_name" {
+#   value = "terraform"
+# }

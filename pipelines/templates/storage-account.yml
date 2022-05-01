@@ -4,6 +4,8 @@ parameters:
   - name: file_name
   - name: depends_on
     default: []
+  - name: storage_account_name
+  - name: container_name
 
 jobs:
   - job: 'SaveFile'
@@ -28,6 +30,4 @@ jobs:
           scriptLocation: 'inlineScript'
           inlineScript: |
             $json = Get-Content '${{ parameters.file_name }}' | Out-String | ConvertFrom-Json
-            $storage_account_name = $json.storage_account_name.value
-            $storage_container_name = $json.storage_container_name.value
-            az storage blob upload --account-name $storage_account_name --container-name $storage_container_name --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key
+            az storage blob upload --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key

@@ -42,3 +42,5 @@ stages:
         output_file: 'tf-backend.tar'
         file_name: 'tf-backend.json'
         artifact_name: 'tf-states'
+        storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
+        container_name: '$(STORAGE-ACCOUNT-CONTAINER)'
