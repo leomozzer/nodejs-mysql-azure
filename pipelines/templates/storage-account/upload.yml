@@ -10,6 +10,7 @@ parameters:
 jobs:
   - job: 'SaveFile'
     dependsOn: ${{ parameters.depends_on }}
+    condition: succeeded() 
     pool:
       vmImage: ubuntu-latest
 
