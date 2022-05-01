@@ -20,7 +20,7 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         displayName: 'Get tfstate files'
-        continueOnError: boolean
+        continueOnError: true
         inputs:
           buildType: 'current'
           downloadType: 'single'
@@ -28,7 +28,7 @@ jobs:
           downloadPath: '$(System.ArtifactsDirectory)'
 
       - task: ExtractFiles@1
-        continueOnError: boolean
+        continueOnError: true
         displayName: 'Extract tfstate files'
         inputs:
           archiveFilePatterns: '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}/*.tar' 
@@ -44,7 +44,7 @@ jobs:
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
         displayName: 'Install Terraform'
-        continueOnError: boolean
+        continueOnError: true
         inputs:
           terraformVersion: 0.14.7
 
