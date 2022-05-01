@@ -29,8 +29,8 @@ stages:
 
     - template: ../templates/storage-account/download.yml
       parameters:        
-        output_file: 'tf-backend.tar'
-        artifact_name: 'tf-states'
+        file_name: 'terraform.tfstate'
+        artifact_name: 'tfstates'
         storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
         container_name: '$(STORAGE-ACCOUNT-CONTAINER)'
         
@@ -42,7 +42,7 @@ stages:
         work_dir: ${{ parameters.backendDir }}
         archive_type: 'tar'
         output_file: 'tf-backend'
-        artifact_name: 'tf-states'
+        artifact_name: 'tfstates'
         depends_on: 'DownloadFile'
 
     - template: ../templates/storage-account/upload.yml
@@ -50,6 +50,6 @@ stages:
         depends_on: 'Terraform'
         output_file: 'tf-backend.tar'
         file_name: 'tf-backend.json'
-        artifact_name: 'tf-states'
+        artifact_name: 'tfstates'
         storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
         container_name: '$(STORAGE-ACCOUNT-CONTAINER)'

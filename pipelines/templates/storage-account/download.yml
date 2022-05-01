@@ -1,6 +1,6 @@
 parameters:
-  - name: artifact_name
-  - name: output_file  
+  - name: file_name
+  - name: artifact_name  
   # - name: depends_on
   #   default: []
   - name: storage_account_name
@@ -20,7 +20,7 @@ jobs:
           scriptType: 'pscore'
           scriptLocation: 'inlineScript'
           inlineScript: |
-            az storage blob download --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key
+            az storage blob download --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.file_name }} --file ${{ parameters.file_name }} --auth-mode key
 
       - task: PublishBuildArtifacts@1
         inputs:

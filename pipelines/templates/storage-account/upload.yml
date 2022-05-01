@@ -10,7 +10,7 @@ parameters:
 jobs:
   - job: 'SaveFile'
     dependsOn: ${{ parameters.depends_on }}
-    condition: succeededOrFailed()
+    condition: always()
     pool:
       vmImage: ubuntu-latest
 
@@ -29,4 +29,4 @@ jobs:
           scriptType: 'pscore'
           scriptLocation: 'inlineScript'
           inlineScript: |
-            az storage blob upload --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key
+            az storage blob upload --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.file_name }} --file ${{ parameters.file_name }} --auth-mode key
