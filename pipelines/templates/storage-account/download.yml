@@ -7,7 +7,7 @@ parameters:
   - name: container_name
 
 jobs:
-  - job: 'SaveFile'
+  - job: 'DownalodFile'
     # dependsOn: ${{ parameters.depends_on }}
     pool:
       vmImage: ubuntu-latest
