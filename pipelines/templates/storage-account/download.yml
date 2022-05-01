@@ -14,7 +14,6 @@ jobs:
 
     steps:
       - task: AzureCLI@2
-        retryCountOnTaskFailure: 2
         inputs:
           workingDirectory: '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}'
           azureSubscription: 'AzureDevOps'
