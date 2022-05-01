@@ -10,9 +10,12 @@ parameters:
   - name : archive_type
   - name: output_file
   - name: artifact_name
+  - name: depends_on
+    default: []
 
 jobs:
   - job: 'Terraform'
+    dependsOn: ${{ parameters.depends_on }}
     pool:
       vmImage: ubuntu-latest
 
