@@ -23,6 +23,7 @@ jobs:
           terraformVersion: 0.14.7
 
       - task: Bash@3
+        displayName: 'Terraform init'
         inputs:
           targetType: 'inline'
           script: |
@@ -36,28 +37,52 @@ jobs:
       #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
       #     allowTelemetryCollection: true
     
-      - task: CmdLine@2 
-        displayName: "Terraform check format"
-        inputs:
-          script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      # - task: CmdLine@2 
+      #   displayName: "Terraform check format"
+      #   inputs:
+      #     script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
-      - task: TerraformCLI@0
+      - task: Bash@3
+        displayName: 'Terraform check format'
+        inputs:
+          targetType: 'inline'
+          script: |
+            terraform fmt -check -recursive -diff
+          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform plan'
+      #   inputs:
+      #     command: 'plan'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     allowTelemetryCollection: true
+      #     commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
+      #     environmentServiceName: 'AzureDevOps'
+
+      - task: Bash@3
         displayName: 'Terraform plan'
         inputs:
-          command: 'plan'
+          targetType: 'inline'
+          script: |
+            terraform plan -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          allowTelemetryCollection: true
-          commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
-          environmentServiceName: 'AzureDevOps'
 
-      - task: TerraformCLI@0
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform Apply'
+      #   inputs:
+      #     command: 'apply'
+      #     allowTelemetryCollection: true
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
+      #     environmentServiceName: 'AzureDevOps'
+
+      - task: Bash@3
         displayName: 'Terraform Apply'
         inputs:
-          command: 'apply'
-          allowTelemetryCollection: true
+          targetType: 'inline'
+          script: |
+            terraform apply -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
-          environmentServiceName: 'AzureDevOps'
 
       - task: ArchiveFiles@2
         inputs:
