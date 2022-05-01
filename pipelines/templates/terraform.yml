@@ -30,18 +30,6 @@ jobs:
             terraform init
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
-      # - task: TerraformCLI@0
-      #   displayName: 'Terraform init'
-      #   inputs:
-      #     command: 'init'
-      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-      #     allowTelemetryCollection: true
-    
-      # - task: CmdLine@2 
-      #   displayName: "Terraform check format"
-      #   inputs:
-      #     script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-
       - task: Bash@3
         displayName: 'Terraform check format'
         inputs:
@@ -49,15 +37,6 @@ jobs:
           script: |
             terraform fmt -check -recursive -diff
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-
-      # - task: TerraformCLI@0
-      #   displayName: 'Terraform plan'
-      #   inputs:
-      #     command: 'plan'
-      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-      #     allowTelemetryCollection: true
-      #     commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
-      #     environmentServiceName: 'AzureDevOps'
 
       - task: Bash@3
         displayName: 'Terraform plan'
@@ -67,15 +46,6 @@ jobs:
             terraform plan -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
-      # - task: TerraformCLI@0
-      #   displayName: 'Terraform Apply'
-      #   inputs:
-      #     command: 'apply'
-      #     allowTelemetryCollection: true
-      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-      #     commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
-      #     environmentServiceName: 'AzureDevOps'
-
       - task: Bash@3
         displayName: 'Terraform Apply'
         inputs:
@@ -84,24 +54,31 @@ jobs:
             terraform apply -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
-      - task: ArchiveFiles@2
-        inputs:
-          includeRootFolder: ${{ parameters.include_root_rolder }}
-          rootFolderOrFile: ${{ parameters.work_dir }}
-          archiveType: ${{ parameters.archive_type }}
-          archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
-
-      - task: CmdLine@2 
-        displayName: "Create output json file"
-        inputs:
-          script: 'terraform output -json > ${{ parameters.output_file }}.json'
-          workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}
-
       - task: CopyFiles@2
         inputs:
           SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          Contents: '${{ parameters.output_file }}.json'
+          Contents: |
+            terraform.tfstate
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      # - task: ArchiveFiles@2
+      #   inputs:
+      #     includeRootFolder: ${{ parameters.include_root_rolder }}
+      #     rootFolderOrFile: ${{ parameters.work_dir }}
+      #     archiveType: ${{ parameters.archive_type }}
+      #     archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
+
+      # - task: CmdLine@2 
+      #   displayName: "Create output json file"
+      #   inputs:
+      #     script: 'terraform output -json > ${{ parameters.output_file }}.json'
+      #     workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}
+
+      # - task: CopyFiles@2
+      #   inputs:
+      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     Contents: '${{ parameters.output_file }}.json'
+      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
         inputs:
