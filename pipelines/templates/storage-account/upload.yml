@@ -1,7 +1,6 @@
 parameters:
   - name: artifact_name
   - name: output_file
-  - name: file_name
   - name: depends_on
     default: []
   - name: storage_account_name
