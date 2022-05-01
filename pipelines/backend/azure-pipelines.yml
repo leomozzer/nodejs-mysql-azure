@@ -27,9 +27,8 @@ stages:
   - stage: dev
     jobs:
 
-    - template: ../templates/storage-account/upload.yml
-      parameters:
-        depends_on: []
+    - template: ../templates/storage-account/download.yml
+      parameters:        
         output_file: 'tf-backend.tar'
         artifact_name: 'tf-states'
         storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
