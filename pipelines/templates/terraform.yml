@@ -99,18 +99,6 @@ jobs:
       #     archiveType: ${{ parameters.archive_type }}
       #     archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.output_file }}.${{ parameters.archive_type }}'
 
-      # - task: CmdLine@2 
-      #   displayName: "Create output json file"
-      #   inputs:
-      #     script: 'terraform output -json > ${{ parameters.output_file }}.json'
-      #     workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}
-
-      # - task: CopyFiles@2
-      #   inputs:
-      #     SourceFolder: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-      #     Contents: '${{ parameters.output_file }}.json'
-      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
       - task: PublishBuildArtifacts@1
         inputs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
