@@ -79,11 +79,11 @@ resource "azurerm_key_vault_secret" "secret_acr_name" {
   key_vault_id = azurerm_key_vault.keyvault.id
 }
 
-resource "azurerm_key_vault_secret" "secret_storage_account_name" {
-  name         = "storage-account-name"
-  value        = azurerm_storage_account.storage_account.name
-  key_vault_id = azurerm_key_vault.keyvault.id
-}
+# resource "azurerm_key_vault_secret" "secret_storage_account_name" {
+#   name         = "storage-account-name"
+#   value        = azurerm_storage_account.storage_account.name
+#   key_vault_id = azurerm_key_vault.keyvault.id
+# }
 
 resource "azurerm_key_vault_secret" "secret_arc_admin_user" {
   count        = var.acr_admin_enabled ? 1 : 0

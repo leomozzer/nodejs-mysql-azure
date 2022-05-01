@@ -22,12 +22,19 @@ jobs:
         inputs:
           terraformVersion: 0.14.7
 
-      - task: TerraformCLI@0
-        displayName: 'Terraform init'
+      - task: Bash@3
         inputs:
-          command: 'init'
+          targetType: 'inline'
+          script: |
+            terraform init
           workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          allowTelemetryCollection: true
+
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform init'
+      #   inputs:
+      #     command: 'init'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     allowTelemetryCollection: true
     
       - task: CmdLine@2 
         displayName: "Terraform check format"
