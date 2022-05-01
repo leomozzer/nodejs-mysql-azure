@@ -17,40 +17,51 @@ jobs:
       vmImage: ubuntu-latest
 
     steps:
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-        displayName: 'Install Terraform'
-        inputs:
-          terraformVersion: 0.14.7
+      - bash: |
+        terraform init \
+          -backend-config="storage_account_name=$TF_STATE_BLOB_ACCOUNT_NAME" \
+          -backend-config="container_name=$TF_STATE_BLOB_CONTAINER_NAME" \
+          -backend-config="key=$TF_STATE_BLOB_FILE" \
+          -backend-config="sas_token=$TF_STATE_BLOB_SAS_TOKEN"
+      displayName: Terraform Init
+      env:
+        TF_STATE_BLOB_ACCOUNT_NAME:   $(kv-tf-state-blob-account)
+        TF_STATE_BLOB_CONTAINER_NAME: $(kv-tf-state-blob-container)
+        TF_STATE_BLOB_FILE:           $(kv-tf-state-blob-file)
+      # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      #   displayName: 'Install Terraform'
+      #   inputs:
+      #     terraformVersion: 0.14.7
 
-      - task: TerraformCLI@0
-        displayName: 'Terraform init'
-        inputs:
-          command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          allowTelemetryCollection: true
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform init'
+      #   inputs:
+      #     command: 'init'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     allowTelemetryCollection: true
     
-      - task: CmdLine@2 
-        displayName: "Terraform check format"
-        inputs:
-          script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      # - task: CmdLine@2 
+      #   displayName: "Terraform check format"
+      #   inputs:
+      #     script: 'terraform fmt -check -recursive -diff $(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
-      - task: TerraformCLI@0
-        displayName: 'Terraform plan'
-        inputs:
-          command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          allowTelemetryCollection: true
-          commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
-          environmentServiceName: 'AzureDevOps'
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform plan'
+      #   inputs:
+      #     command: 'plan'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     allowTelemetryCollection: true
+      #     commandOptions: -out=${{ parameters.out_file }}.plan -input=false ${{ parameters.input_vars }}
+      #     environmentServiceName: 'AzureDevOps'
 
-      - task: TerraformCLI@0
-        displayName: 'Terraform Apply'
-        inputs:
-          command: 'apply'
-          allowTelemetryCollection: true
-          workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
-          commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
-          environmentServiceName: 'AzureDevOps'
+      # - task: TerraformCLI@0
+      #   displayName: 'Terraform Apply'
+      #   inputs:
+      #     command: 'apply'
+      #     allowTelemetryCollection: true
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+      #     commandOptions: -auto-approve -lock-timeout=10m ${{ parameters.out_file }}.plan"
+      #     environmentServiceName: 'AzureDevOps'
 
       - task: ArchiveFiles@2
         inputs:

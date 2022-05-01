@@ -8,4 +8,5 @@ terraform.tfvars
 terraform.tfstate.backup
 terraform.tfstate
 .terraform.tfstate.lock.info
+azure.config
 #terraform-copy.tfvars
