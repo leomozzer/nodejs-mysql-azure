@@ -43,6 +43,7 @@ stages:
         archive_type: 'tar'
         output_file: 'tf-backend'
         artifact_name: 'tf-states'
+        depends_on: 'DownloadFile'
 
     - template: ../templates/storage-account/upload.yml
       parameters:
