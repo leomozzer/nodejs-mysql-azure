@@ -13,7 +13,6 @@ jobs:
       vmImage: ubuntu-latest
 
     steps:
-          
       - task: AzureCLI@2
         retryCountOnTaskFailure: 2
         inputs:
