@@ -26,6 +26,15 @@ pool:
 stages:
   - stage: dev
     jobs:
+
+    - template: ../templates/storage-account/upload.yml
+      parameters:
+        depends_on: []
+        output_file: 'tf-backend.tar'
+        artifact_name: 'tf-states'
+        storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
+        container_name: '$(STORAGE-ACCOUNT-CONTAINER)'
+        
     - template: ../templates/terraform.yml
       parameters:
         out_file: "main"
@@ -36,7 +45,7 @@ stages:
         output_file: 'tf-backend'
         artifact_name: 'tf-states'
 
-    - template: ../templates/storage-account.yml
+    - template: ../templates/storage-account/upload.yml
       parameters:
         depends_on: 'Terraform'
         output_file: 'tf-backend.tar'
