@@ -16,6 +16,7 @@ parameters:
 jobs:
   - job: 'Terraform'
     dependsOn: ${{ parameters.depends_on }}
+    condition: succeededOrFailed()   
     pool:
       vmImage: ubuntu-latest
 

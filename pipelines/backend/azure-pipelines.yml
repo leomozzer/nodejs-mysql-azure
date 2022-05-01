@@ -35,7 +35,6 @@ stages:
         container_name: '$(STORAGE-ACCOUNT-CONTAINER)'
         
     - template: ../templates/terraform.yml
-      condition: succeededOrFailed()
       parameters:
         out_file: "main"
         input_vars:  '-var "app_name=${{ parameters.app_name }}" -var "subscription_id=$(SUBSCRIPTION-ID)" -var "client_id=$(CLIENT-ID)" -var "client_secret=$(CLIENT-SECRET)" -var "tenant_id=$(TENANT-ID)"'
