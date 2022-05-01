@@ -49,7 +49,7 @@ stages:
       parameters:
         depends_on: 'Terraform'
         output_file: 'tf-backend.tar'
-        file_name: 'tf-backend.json'
+        file_name: 'terraform.tfstate'
         artifact_name: 'tfstates'
         storage_account_name: '$(STORAGE-ACCOUNT-NAME)'
         container_name: '$(STORAGE-ACCOUNT-CONTAINER)'
