@@ -1,14 +1,14 @@
 parameters:
   - name: artifact_name
   - name: output_file  
-  - name: depends_on
-    default: []
+  # - name: depends_on
+  #   default: []
   - name: storage_account_name
   - name: container_name
 
 jobs:
   - job: 'DownloadFile'
-    # dependsOn: ${{ parameters.depends_on }}
+    #dependsOn: ${{ parameters.depends_on }}
     pool:
       vmImage: ubuntu-latest
 
