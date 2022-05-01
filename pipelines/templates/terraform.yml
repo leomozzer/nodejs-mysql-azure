@@ -40,6 +40,7 @@ jobs:
 
       - task: CopyFiles@2
         displayName: 'Move tfstate files'
+        continueOnError: true
         inputs:
           SourceFolder: '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
           Contents: |
