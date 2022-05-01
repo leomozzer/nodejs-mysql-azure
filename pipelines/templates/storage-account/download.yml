@@ -1,0 +1,30 @@
+parameters:
+  - name: artifact_name
+  - name: output_file  
+  - name: depends_on
+    default: []
+  - name: storage_account_name
+  - name: container_name
+
+jobs:
+  - job: 'SaveFile'
+    dependsOn: ${{ parameters.depends_on }}
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+          
+      - task: AzureCLI@2
+        retryCountOnTaskFailure: 2
+        inputs:
+          workingDirectory: '$(System.ArtifactsDirectory)/${{ parameters.artifact_name }}'
+          azureSubscription: 'AzureDevOps'
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az storage blob download --account-name ${{ parameters.storage_account_name }} --container-name ${{ parameters.container_name }} --name ${{ parameters.output_file }} --file ${{ parameters.output_file }} --auth-mode key
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ${{ parameters.artifact_name }}
