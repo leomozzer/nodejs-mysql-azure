@@ -16,7 +16,7 @@ module "backend" {
   rg_location       = "West Europe"
   acr_name          = "${local.random_result}acr"
   acr_sku           = "Basic"
-  acr_admin_enabled = false
+  acr_admin_enabled = true
   # storage_account_name     = "${local.random_result}stac"
   # account_tier             = "Standard"
   # account_replication_type = "LRS"
