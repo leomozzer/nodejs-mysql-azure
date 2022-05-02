@@ -28,6 +28,7 @@ stages:
           repository: 'nodejs-app'
           command: 'buildAndPush'
           Dockerfile: '$(System.DefaultWorkingDirectory)/app/Dockerfile' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          tags: 'latest'
 
       # # Build container image
       # - task: Docker@1
