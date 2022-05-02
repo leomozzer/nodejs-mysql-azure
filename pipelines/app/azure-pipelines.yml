@@ -8,7 +8,7 @@ trigger:
     - README.md
     - LICENSE
     include:
-    - terraform-main
+    - app
 
 #How to Build and Deploy Docker Containers with Azure Pipelines
 #https://www.youtube.com/watch?v=272GOWKDqP4
