@@ -24,10 +24,10 @@ stages:
 
       - task: Docker@2
         inputs:
-          containerRegistry: 'acrleo'
+          containerRegistry: 'wdmcvakacr'
           repository: 'nodejs-app'
           command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Dockerfile: '$(System.DefaultWorkingDirectory)/app/Dockerfile' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
 
       # # Build container image
       # - task: Docker@1
