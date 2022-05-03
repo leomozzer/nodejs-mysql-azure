@@ -24,7 +24,7 @@ stages:
 
       - task: Docker@2
         inputs:
-          containerRegistry: 'AzureDevOpsACR'
+          containerRegistry: 'AzureACR'
           repository: 'nodejs-app'
           command: 'buildAndPush'
           Dockerfile: '$(System.DefaultWorkingDirectory)/app/Dockerfile' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
