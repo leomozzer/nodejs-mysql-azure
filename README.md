@@ -3,3 +3,7 @@
 
 ## Terraform
 - https://julie.io/writing/terraform-on-azure-pipelines-best-practices/
+
+## Docs
+#How to Build and Deploy Docker Containers with Azure Pipelines
+#https://www.youtube.com/watch?v=272GOWKDqP4

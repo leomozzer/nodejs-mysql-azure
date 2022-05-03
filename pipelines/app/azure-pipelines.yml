@@ -10,8 +10,9 @@ trigger:
     include:
     - app
 
-#How to Build and Deploy Docker Containers with Azure Pipelines
-#https://www.youtube.com/watch?v=272GOWKDqP4
+parameters:
+  - name: containerRegistry
+    default: "AzureACR"
 
 pool:
   vmImage: ubuntu-latest
@@ -24,27 +25,8 @@ stages:
 
       - task: Docker@2
         inputs:
-          containerRegistry: 'AzureACR'
+          containerRegistry: ${{ parameters.containerRegistry }}
           repository: 'nodejs-app'
           command: 'buildAndPush'
-          Dockerfile: '$(System.DefaultWorkingDirectory)/app/Dockerfile' #'$(System.DefaultWorkingDirectory)/${{ parameters.work_dir }}'
+          Dockerfile: '$(System.DefaultWorkingDirectory)/app/Dockerfile'
           tags: 'latest'
-
-      # # Build container image
-      # - task: Docker@1
-      #   displayName: 'Build container image'
-      #   inputs:
-      #     azureSubscriptionEndpoint: 'AzureSC'
-      #     azureContainerRegistry: '$(acrHostName)'
-      #     imageName: '$(imageName):$(Build.BuildId)'
-      #     useDefaultContext: false
-      #     buildContext: '$(System.DefaultWorkingDirectory)/PublishedWebApp'
-      
-      # # Push container image
-      # - task: Docker@1
-      #   displayName: 'Push container image'
-      #   inputs:
-      #     azureSubscriptionEndpoint: 'AzureSC'
-      #     azureContainerRegistry: '$(acrHostName)'
-      #     command: 'Push an image'
-      #     imageName: '$(imageName):$(Build.BuildId)'
